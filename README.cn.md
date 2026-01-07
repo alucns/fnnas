@@ -163,7 +163,7 @@ sudo apt-get install -y $(cat make-fnnas/script/ubuntu2404-make-fnnas-depends)
 | -b   | Board      | 指定需要编译的设备代号。例如，`-b s905x3` 表示编译代号为 s905x3 的设备，多个设备可用下划线连接，如 `-b s905x3_s905d`。特殊值：`all` 表示编译全部设备，`first50` 表示编译设备库中的前 50 个，`from50` 表示从第 51 个开始至最后一个，`last20` 表示最后的 20 个。设备代号列表详见 [model_database.conf](make-fnnas/fnnas-files/common-files/etc/model_database.conf) 中的 `BOARD` 配置项。默认值为 `all` |
 | -r   | KernelRepo | 指定 github.com 内核仓库的 `<owner>/<repo>`。默认值：`ophub/kernel` |
 | -u   | kernelUsage | 设置使用的内核的 `tags 后缀`，如 [stable](https://github.com/ophub/kernel/releases/tag/kernel_stable), [flippy](https://github.com/ophub/kernel/releases/tag/kernel_flippy), [beta](https://github.com/ophub/kernel/releases/tag/kernel_beta)。默认值：`stable` |
-| -k   | Kernel     | 指定 [kernel](https://github.com/ophub/kernel/releases/tag/kernel_stable) 名称，如 `-k 6.12.63` 。多个内核使用 `_` 进行连接，如 `-k 6.12.63_6.1.159` 。通过 `-k` 参数自由指定的内核版本只对使用 `stable/flippy/beta` 的内核有效。其他内核系列例如 [rk3588](https://github.com/ophub/kernel/releases/tag/kernel_rk3588) / [rk35xx](https://github.com/ophub/kernel/releases/tag/kernel_rk35xx) / [h6](https://github.com/ophub/kernel/releases/tag/kernel_h6) 等只能使用特定内核。  |
+| -k   | Kernel     | 指定 [kernel](https://github.com/ophub/kernel/releases/tag/kernel_stable) 名称，如 `-k 6.12.63` 。多个内核使用 `_` 进行连接，如 `-k 6.12.63_6.18.3` 。通过 `-k` 参数自由指定的内核版本只对使用 `stable/flippy/beta` 的内核有效。其他内核系列例如 [rk3588](https://github.com/ophub/kernel/releases/tag/kernel_rk3588) / [rk35xx](https://github.com/ophub/kernel/releases/tag/kernel_rk35xx) / [h6](https://github.com/ophub/kernel/releases/tag/kernel_h6) 等只能使用特定内核。  |
 | -a   | AutoKernel | 设置是否自动采用同系列最新版本内核。当为 `true` 时，将自动在内核库中查找在 `-k` 中指定的内核如 6.12.63 的同系列是否有更新的版本，如有 6.12.63 之后的最新版本时，将自动更换为最新版。设置为 `false` 时将编译指定版本内核。默认值：`true` |
 | -s   | Size       | 对系统的镜像分区大小（单位：MiB）进行设置，只设置 `ROOTFS` 分区大小时可以只指定一个数值，例如： `-s 6144`。需要同时设置 `BOOTFS` 和 `ROOTFS` 分区大小时，使用 / 对两个数值进行连接，例如： `-s 512/6144`。默认值：`512/6144` |
 | -n   | BuilderName | 设置 FnNAS 系统构建者签名。设置签名时请勿包含空格。默认值：`无` |
@@ -171,11 +171,11 @@ sudo apt-get install -y $(cat make-fnnas/script/ubuntu2404-make-fnnas-depends)
 - `sudo ./renas` : 使用默认配置，对全部型号的电视盒子进行打包。
 - `sudo ./renas -b s905x3 -k 6.12.63` : 推荐使用. 使用默认配置进行相关内核打包。
 - `sudo ./renas -b s905x3 -k 6.12.y` : 使用默认配置进行相关内核打包，内核使用 6.12.y 系列的最新版。
-- `sudo ./renas -b s905x3_s905d -k 6.12.63_6.1.159` : 使用默认配置，进行多个内核同时打包。使用 `_` 进行多内核参数连接。
+- `sudo ./renas -b s905x3_s905d -k 6.12.63_6.18.3` : 使用默认配置，进行多个内核同时打包。使用 `_` 进行多内核参数连接。
 - `sudo ./renas -b s905x3 -k 6.12.63 -s 6144` : 使用默认配置，指定一个内核，一个型号进行打包，系统大小设定为 `6144` MiB。
 - `sudo ./renas -b s905x3_s905d`  使用默认配置，对多个型号的电视盒子进行全部内核打包, 使用 `_` 进行多型号连接。
-- `sudo ./renas -k 6.12.63_6.1.159` : 使用默认配置，指定多个内核，进行全部型号电视盒子进行打包, 内核包使用 `_` 进行连接。
-- `sudo ./renas -k 6.12.63_6.1.159 -a true` : 使用默认配置，指定多个内核，进行全部型号电视盒子进行打包, 内核包使用 `_` 进行连接。自动升级到同系列最新内核。
+- `sudo ./renas -k 6.12.63_6.18.3` : 使用默认配置，指定多个内核，进行全部型号电视盒子进行打包, 内核包使用 `_` 进行连接。
+- `sudo ./renas -k 6.12.63_6.18.3 -a true` : 使用默认配置，指定多个内核，进行全部型号电视盒子进行打包, 内核包使用 `_` 进行连接。自动升级到同系列最新内核。
 
 ## 使用 GitHub Actions 进行编译
 
@@ -189,7 +189,7 @@ sudo apt-get install -y $(cat make-fnnas/script/ubuntu2404-make-fnnas-depends)
   with:
     fnnas_path: fnnas/*.img.xz
     fnnas_board: s905d_s905x3_s922x_s905x
-    fnnas_kernel: 6.12.y_6.1.y
+    fnnas_kernel: 6.12.y
 ```
 
 - ### GitHub Actions 输入参数说明
@@ -202,7 +202,7 @@ sudo apt-get install -y $(cat make-fnnas/script/ubuntu2404-make-fnnas-depends)
 | fnnas_board      | all           | 设置打包盒子的 `board` ，功能参考 `-b`                 |
 | kernel_repo      | ophub/kernel  | 指定 github.com 内核仓库的 `<owner>/<repo>`，功能参考 `-r` |
 | kernel_usage     | stable        | 设置使用的内核的 `tags 后缀`。功能参考 `-u` |
-| fnnas_kernel     | 6.12.y_6.1.y  | 设置内核 [版本](https://github.com/ophub/kernel/releases/tag/kernel_stable)，功能参考 `-k` |
+| fnnas_kernel     | 6.12.y        | 设置内核 [版本](https://github.com/ophub/kernel/releases/tag/kernel_stable)，功能参考 `-k` |
 | auto_kernel      | true          | 设置是否自动采用同系列最新版本内核，功能参考 `-a`       |
 | fnnas_size       | 512/6144      | 设置系统 BOOTFS 和 ROOTFS 分区的大小，功能参考 `-s`  |
 | builder_name     | 无             | 设置 FnNAS 系统构建者签名，功能参考 `-n`           |
@@ -211,11 +211,11 @@ sudo apt-get install -y $(cat make-fnnas/script/ubuntu2404-make-fnnas-depends)
 
 上传到 `Releases` 需要给仓库设置 `Workflow 读写权限`，详见[使用说明](https://github.com/ophub/amlogic-s9xxx-armbian/blob/main/documents/README.cn.md#2-设置隐私变量-github_token)。
 
-| 参数                                 | 默认值         | 说明                       |
-|-------------------------------------|---------------|----------------------------|
-| ${{ env.PACKAGED_OUTPUTPATH }}      | out           | FnNAS 系统文件输出路径      |
-| ${{ env.PACKAGED_OUTPUTDATE }}      | 04.13.1058    | 打包日期（月.日.时分）         |
-| ${{ env.PACKAGED_STATUS }}          | success       | 打包状态：success / failure  |
+| 参数                              | 默认值         | 说明                       |
+|----------------------------------|---------------|----------------------------|
+| `${{ env.PACKAGED_OUTPUTPATH }}` | out           | FnNAS 系统文件输出路径      |
+| `${{ env.PACKAGED_OUTPUTDATE }}` | 04.13.1058    | 打包日期（月.日.时分）         |
+| `${{ env.PACKAGED_STATUS }}`     | success       | 打包状态：success / failure  |
 
 ## 使用 GitHub Actions 编译内核
 
@@ -226,7 +226,7 @@ sudo apt-get install -y $(cat make-fnnas/script/ubuntu2404-make-fnnas-depends)
   uses: ophub/amlogic-s9xxx-armbian@main
   with:
     build_target: kernel
-    kernel_version: 6.21.y_6.1.y
+    kernel_version: 6.12.y
     kernel_auto: true
     kernel_sign: -yourname
 ```
@@ -246,10 +246,9 @@ sudo apt-get install -y $(cat make-fnnas/script/ubuntu2404-make-fnnas-depends)
 
 ## 链接
 
+- [fnnas.com](https://fnnas.com)
 - [unifreq](https://github.com/unifreq)
 - [coolsnowwolf](https://github.com/coolsnowwolf/lede)
-- [armbian](https://github.com/armbian/build)
-- [kernel.org](https://kernel.org)
 
 ## License
 

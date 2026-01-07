@@ -165,7 +165,7 @@ sudo apt-get install -y $(cat make-fnnas/script/ubuntu2404-make-fnnas-depends)
 | -b        | Board      | Specifies the device code to be compiled. For example, `-b s905x3` means compiling the device with code s905x3. Multiple devices can be connected with `_`, such as `-b s905x3_s905d`. Special values: `all` means compile all devices, `first50` means compile the first 50 in the device library, `from50` means start from the 51st to the last, `last20` means the last 20. Device code lists are detailed in the BOARD configuration item in [model_database.conf](make-fnnas/fnnas-files/common-files/etc/model_database.conf). Default value: `all` |
 | -r        | KernelRepo | Specifies the `<owner>/<repo>` of the github.com kernel repository. Default value: `ophub/kernel` |
 | -u        | kernelUsage | Set the `tags suffix` of the kernel used, such as [stable](https://github.com/ophub/kernel/releases/tag/kernel_stable), [flippy](https://github.com/ophub/kernel/releases/tag/kernel_flippy), [beta](https://github.com/ophub/kernel/releases/tag/kernel_beta). Default value: `stable` |
-| -k        | Kernel     | Specify [kernel](https://github.com/ophub/kernel/releases/tag/kernel_stable) name, such as `-k 6.6.12`. Connect multiple kernels with `_`, such as `-k 6.6.12_5.15.50`. The kernel version freely specified by the `-k` parameter is only valid for kernels using `stable/flippy/beta`. Other kernel series such as [rk3588](https://github.com/ophub/kernel/releases/tag/kernel_rk3588) / [rk35xx](https://github.com/ophub/kernel/releases/tag/kernel_rk35xx) / [h6](https://github.com/ophub/kernel/releases/tag/kernel_h6) can only use specific kernels. |
+| -k        | Kernel     | Specify [kernel](https://github.com/ophub/kernel/releases/tag/kernel_stable) name, such as `-k 6.6.12`. Connect multiple kernels with `_`, such as `-k 6.12.63_6.18.3`. The kernel version freely specified by the `-k` parameter is only valid for kernels using `stable/flippy/beta`. Other kernel series such as [rk3588](https://github.com/ophub/kernel/releases/tag/kernel_rk3588) / [rk35xx](https://github.com/ophub/kernel/releases/tag/kernel_rk35xx) / [h6](https://github.com/ophub/kernel/releases/tag/kernel_h6) can only use specific kernels. |
 | -a        | AutoKernel | Sets whether to automatically adopt the latest version of the kernel in the same series. When set to `true`, it will automatically check the kernel library for a newer version of the kernel specified in `-k`, such as 6.12.63. If there is a newer version after 6.12.63, it will automatically switch to the latest version. When set to `false`, the specified version kernel will be compiled. Default value: `true` |
 | -s        | Size       | Set the size(Unit: MiB) of the system's image partitions. When setting only the `ROOTFS` partition size, you can specify a single value, for example: `-s 6144`. When setting both `BOOTFS` and `ROOTFS` partition sizes, use / to connect the two values, for example: `-s 512/6144`. The default value is `512/6144` |
 | -n        | BuilderName | Set the Armbian system builder signature. Do not include spaces when setting the signature. Default value: `None` |
@@ -173,11 +173,11 @@ sudo apt-get install -y $(cat make-fnnas/script/ubuntu2404-make-fnnas-depends)
 - `sudo ./renas` : Use default configuration to package for `all` models of TV boxes.
 - `sudo ./renas -b s905x3 -k 6.12.63` : Recommended. Use default configuration for packaging with relevant kernel.
 - `sudo ./renas -b s905x3 -k 6.12.y` : Use default configuration for packaging, using the latest version of the 6.12.y series kernel.
-- `sudo ./renas -b s905x3_s905d -k 6.12.63_6.1.159` : Use default configuration to package multiple kernels simultaneously. Use `_` to connect multi-kernel parameters.
+- `sudo ./renas -b s905x3_s905d -k 6.12.63_6.18.3` : Use default configuration to package multiple kernels simultaneously. Use `_` to connect multi-kernel parameters.
 - `sudo ./renas -b s905x3 -k 6.12.63 -s 6144` : Use default configuration, specify one kernel and one model for packaging, system size set to `6144` MiB.
 - `sudo ./renas -b s905x3_s905d` : Use default configuration to package all kernels for multiple models of TV boxes, use `_` to connect multiple models.
-- `sudo ./renas -k 6.12.63_6.1.159` : Use default configuration, specify multiple kernels to package for all models of TV boxes, kernel packages connected with `_`.
-- `sudo ./renas -k 6.12.63_6.1.159 -a true` : Use default configuration, specify multiple kernels to package for all models of TV boxes, kernel packages connected with `_`. Automatically upgrade to the latest kernel of the same series.
+- `sudo ./renas -k 6.12.63_6.18.3` : Use default configuration, specify multiple kernels to package for all models of TV boxes, kernel packages connected with `_`.
+- `sudo ./renas -k 6.12.63_6.18.3 -a true` : Use default configuration, specify multiple kernels to package for all models of TV boxes, kernel packages connected with `_`. Automatically upgrade to the latest kernel of the same series.
 
 ## Use GitHub Actions for Compilation
 
@@ -191,7 +191,7 @@ sudo apt-get install -y $(cat make-fnnas/script/ubuntu2404-make-fnnas-depends)
   with:
     fnnas_path: fnnas/*.img.xz
     fnnas_board: s905d_s905x3_s922x_s905x
-    fnnas_kernel: 6.12.y_6.1.y
+    fnnas_kernel: 6.12.y
 ```
 
 - ### GitHub Actions Input Parameter Description
@@ -204,7 +204,7 @@ The related parameters correspond to the `local packaging command`, please refer
 | fnnas_board     | all           | Set the board for packaging boxes. Function refers to `-b` |
 | kernel_repo     | ophub/kernel  | Specify the `<owner>/<repo>` of the github.com kernel repository. Function refers to `-r` |
 | kernel_usage    | stable        | Set the `tags suffix` of the kernel used. Function refers to `-u` |
-| fnnas_kernel    | 6.1.y_5.15.y  | Set the [version](https://github.com/ophub/kernel/releases/tag/kernel_stable) of the kernel. Function refers to `-k` |
+| fnnas_kernel    | 6.12.y        | Set the [version](https://github.com/ophub/kernel/releases/tag/kernel_stable) of the kernel. Function refers to `-k` |
 | auto_kernel     | true          | Set whether to automatically adopt the latest version of the kernel in the same series. Function refers to `-a` |
 | fnnas_size      | 512/6144      | Set the size of the system `BOOTFS` and `ROOTFS` partitions. Function refers to `-s` |
 | builder_name    | None          | Set the FnNAS system `builder signature`. Function refers to `-n` |
@@ -215,9 +215,9 @@ Uploading to `Releases` requires setting `Workflow Read and Write permissions` f
 
 | Parameter                        | Default       | Description                           |
 |----------------------------------|---------------|---------------------------------------|
-| ${{ env.PACKAGED_OUTPUTPATH }}   | out           | FnNAS system files output path      |
-| ${{ env.PACKAGED_OUTPUTDATE }}   | 04.13.1058    | Packaging date (month.day.hourminute) |
-| ${{ env.PACKAGED_STATUS }}       | success       | Packaging status: success / failure   |
+| `${{ env.PACKAGED_OUTPUTPATH }}` | out           | FnNAS system files output path      |
+| `${{ env.PACKAGED_OUTPUTDATE }}` | 04.13.1058    | Packaging date (month.day.hourminute) |
+| `${{ env.PACKAGED_STATUS }}`     | success       | Packaging status: success / failure   |
 
 ## Compiling Kernel using GitHub Actions
 
@@ -228,7 +228,7 @@ For kernel compilation methods, see the instructions in [compile-kernel](https:/
   uses: ophub/amlogic-s9xxx-armbian@main
   with:
     build_target: kernel
-    kernel_version: 6.21.y_6.1.y
+    kernel_version: 6.12.y
     kernel_auto: true
     kernel_sign: -yourname
 ```
@@ -248,12 +248,10 @@ The [u-boot](https://github.com/ophub/u-boot), [kernel](https://github.com/ophub
 
 ## Links
 
+- [fnnas.com](https://fnnas.com)
 - [unifreq](https://github.com/unifreq)
 - [coolsnowwolf](https://github.com/coolsnowwolf/lede)
-- [armbian](https://github.com/armbian/build)
-- [kernel.org](https://kernel.org)
 
 ## License
 
 The fnnas © OPHUB is licensed under [GPL-2.0](LICENSE)
-
