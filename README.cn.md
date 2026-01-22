@@ -174,7 +174,7 @@ sudo apt-get install -y $(cat make-fnnas/script/ubuntu2404-make-fnnas-depends)
 
 | 参数  | 含义       | 说明        |
 | ---- | ---------- | ---------- |
-| -b   | Board      | 指定需要编译的设备代号。例如，`-b s905x3` 表示编译代号为 s905x3 的设备，多个设备可用下划线连接，如 `-b s905x3_s905d`。特殊值：`all` 表示编译全部设备，`first50` 表示编译设备库中的前 50 个，`from50` 表示从第 51 个开始至最后一个，`last20` 表示最后的 20 个。设备代号列表详见 [model_database.conf](make-fnnas/fnnas-files/common-files/etc/model_database.conf) 中的 `BOARD` 配置项。默认值为 `all` |
+| -b   | Board      | 指定需要编译的设备代号。例如，`-b s905x3` 表示编译代号为 s905x3 的设备，多个设备可用下划线连接，如 `-b s905x3_s905d`。特殊值：`all` 表示编译全部设备，`first50` 表示编译设备库中的前 50 个，`range50_100` 表示从第 51 个开始至第 100 个，`range100_150` 表示从第 101 个开始至第 150 个，`last20` 表示最后的 20 个。设备代号列表详见 [model_database.conf](make-fnnas/fnnas-files/common-files/etc/model_database.conf) 中的 `BOARD` 配置项。默认值为 `all` |
 | -r   | KernelRepo | 指定 github.com 内核仓库的 `<owner>/<repo>`。默认值：`ophub/fnnas` |
 | -k   | Kernel     | 指定 [kernel](https://github.com/ophub/fnnas/releases/tag/kernel_fnnas) 名称，如 `-k 6.12.63` 。多个内核使用 `_` 进行连接，如 `-k 6.12.63_6.18.3` 。 |
 | -a   | AutoKernel | 设置是否自动采用同系列最新版本内核。当为 `true` 时，将自动在内核库中查找在 `-k` 中指定的内核如 6.12.63 的同系列是否有更新的版本，如有 6.12.63 之后的最新版本时，将自动更换为最新版。设置为 `false` 时将编译指定版本内核。默认值：`true` |
